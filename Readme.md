@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Alina Levintas](https://up.htmlacademy.ru/javascript/25/user/1756361).
-* Наставник: `Неизвестно`.
+* Наставник: [Dmitriy Bykov](https://htmlacademy.ru/profile/id618225).
 
 ---
 
