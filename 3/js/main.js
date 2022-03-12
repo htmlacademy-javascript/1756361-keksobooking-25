@@ -12,8 +12,15 @@ const getRandomFloat = (min, max, count) => {
   return (min + Math.random() * (max - min)).toFixed(count);
 };
 
-getRandomInteger(1,2);
-getRandomFloat(1,10, 5);
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0;) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
 
 const MIN_PRICE = 1;
 const MAX_PRICE = 99999999;
@@ -32,7 +39,7 @@ const MAX_LNG = 139.80000;
 
 const SIMILAR_AUTHOR_COUNT = 10;
 
-const arrayOfAvatars = [
+const avatars = [
   '01',
   '02',
   '03',
@@ -45,7 +52,7 @@ const arrayOfAvatars = [
   '10',
 ];
 
-const arrayOfTypes = [
+const types = [
   'palace',
   'flat',
   'house',
@@ -53,13 +60,13 @@ const arrayOfTypes = [
   'hotel',
 ];
 
-const arrayOfBookTimes = [
+const booktimes = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const arrayOfFeatures = [
+const features = [
   'wifi',
   'dishwasher',
   'parking',
@@ -68,7 +75,7 @@ const arrayOfFeatures = [
   'conditioner',
 ];
 
-const arrayOfPhotos = [
+const photos = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -76,7 +83,7 @@ const arrayOfPhotos = [
 
 const createAuthors= () => {
   const authors = {
-    avatar: `img/avatars/user${arrayOfAvatars[getRandomInteger(0,  arrayOfAvatars.length - 1)]}.png`,
+    avatar: `img/avatars/user${avatars[getRandomInteger(0,  avatars.length - 1)]}.png`,
   };
   return authors;
 };
@@ -98,14 +105,14 @@ const createNearestPlaces = () => {
       title: 'Посмотрите на это предложение! Возможно вам понравится!',
       adress: `${geoLocation.lat}, ${geoLocation.lng}`,
       price: getRandomInteger(MIN_PRICE, MAX_PRICE),
-      type: arrayOfTypes[getRandomInteger(0,  arrayOfTypes.length - 1)],
+      type: types[getRandomInteger(0,  types.length - 1)],
       rooms: getRandomInteger(MIN_ROOMS, MAX_ROOMS),
       guest: getRandomInteger(MIN_GUESTS, MAX_GUESTS),
-      checkin: arrayOfBookTimes[getRandomInteger(0,  arrayOfBookTimes.length - 1)],
-      checkout: arrayOfBookTimes[getRandomInteger(0,  arrayOfBookTimes.length - 1)],
-      features: arrayOfFeatures.slice(getRandomInteger(0,  arrayOfFeatures.length - 1)),
+      checkin: booktimes[getRandomInteger(0,  booktimes.length - 1)],
+      checkout: booktimes[getRandomInteger(0,  booktimes.length - 1)],
+      feature: shuffleArray(features).slice(getRandomInteger(0,  features.length - 1)),
       description: 'Такой жил-площади позавидует любой кот! Сушеная рыба вместо штор!',
-      photos: arrayOfPhotos.slice(getRandomInteger(0, arrayOfPhotos.length - 1)),
+      photo: shuffleArray(photos).slice(getRandomInteger(0, photos.length - 1)),
     },
     location: createLocations(),
   };
