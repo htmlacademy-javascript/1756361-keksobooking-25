@@ -45,8 +45,8 @@ export const makePopup = (item) => {
   cardElement.querySelector('.popup__type').textContent = apartmentType [item.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = `${item.offer.rooms} комнаты для ${item.offer.guest} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${item.offer.checkin} , выезд до  ${item.offer.checkout}`;
-  fillFeatures(cardElement.querySelector('.popup__features'), item.offer.features);
+  fillFeatures(cardElement.querySelector('.popup__features'), item.offer.feature);
   cardElement.querySelector('.popup__description').textContent = item.offer.description;
-  fillPhotos(cardElement.querySelector('.popup__photos'), item.offer.photos);
+  fillPhotos(cardElement.querySelector('.popup__photos'), item.offer.photo);
   return cardElement;
 };
