@@ -1,25 +1,26 @@
-const MIN_NAME_LENGTH = 30;
-const MAX_NAME_LENGTH = 100;
+import {apartmentType} from './card.js';
 
-const userInfoInput = document.querySelector('#title');
+const form = document.querySelector('.ad-form');
 
-userInfoInput.addEventListener('input', () => {
-  const valueLength = userInfoInput.value.length;
+const formMap = document.querySelector('.map__filters');
 
-  if (valueLength < MIN_NAME_LENGTH) {
-    userInfoInput.setCustomValidity(`Ещё ${MIN_NAME_LENGTH - valueLength} симв.`);
-  } else if (valueLength > MAX_NAME_LENGTH) {
-    userInfoInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_NAME_LENGTH} симв.`);
-  } else {
-    userInfoInput.setCustomValidity('');
-  }
 
-  userInfoInput.reportValidity();
+// валидация заголовка
+
+const title = document.querySelector('#title');
+
+const pristine = new Pristine(title, {
+  classTo: 'title',
+  errorClass: 'title--invalid',
+  successClass: 'title--valid',
 });
 
-const userTypeSelect = document.querySelector('#type');
+title.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  pristine.validate();
+});
 
-const userPriceSelect = document.querySelector('#price');
+// валидация прайса
 
 const apartmentMinPrice  = {
   palace:10000,
@@ -29,14 +30,93 @@ const apartmentMinPrice  = {
   hotel:3000,
 };
 
+const userTypeSelect = form.querySelector('#type');
+const userPriceSelect = form.querySelector('#price');
+
+const validatePrice = (value) => value >= apartmentMinPrice(userTypeSelect.value);
+
+const getPriceErrorMessage = () => `Минимальная цена для жилья
+'${apartmentType[userTypeSelect.value]}' должна быть '${apartmentMinPrice(userTypeSelect.value)}' руб.`;
+
+pristine.addValidator(
+  validatePrice,
+  getPriceErrorMessage,
+  `Минимальное значение ${apartmentMinPrice}`
+);
+
+pristine.addValidator(
+  validatePrice,
+  getPriceErrorMessage,
+  'Слишком низкая стоимость'
+);
+
 userTypeSelect.addEventListener('change', (evt) => {
-  userPriceSelect.min = apartmentMinPrice[evt.target.value];
-  userPriceSelect.placeholder = apartmentMinPrice[evt.target.value];
+
+  userPriceSelect.placeholder = apartmentMinPrice(evt.target.value);
+  pristine.validate(userPriceSelect);
 });
 
-const form = document.querySelector('.ad-form');
+// валидация комнат
 
-const formMap = document.querySelector('.map__filters');
+const select1 = [
+  {
+    value: 1,
+    text: '1 комната'
+  }, {
+    value: 3,
+    text: '2 комнаты'
+  }, {
+    value: 3,
+    text: '3 комнаты'
+  }, {
+    value: 100,
+    text: '100 комнат'
+  }
+];
+
+const select2 = [
+  {
+    id: 0,
+    is: [0, 1, 2],
+    text: 'для 1 гостя'
+  }, {
+    id: 1,
+    is: [1, 2],
+    text: 'для 2 гостей'
+  }, {
+    id: 2,
+    is: [2],
+    text: 'для 3 гостей'
+  }, {
+    id: 3,
+    is: [3],
+    text: 'Не для гостей'
+  }
+];
+
+const fieldOne = document.getElementById('#room_number');
+const fieldTwo = document.getElementById('#capacity');
+
+createOptions(fieldOne, select1);
+eventChange.call(fieldOne, fieldTwo);
+
+fieldOne.addEventListener('change', eventChange.bind(fieldOne, fieldTwo));
+
+function eventChange(field) {
+  field.textContent = '';
+  const filtered = select2.filter((o) => o.is.includes(+this.value));
+  createOptions(field, filtered);
+}
+
+
+function createOptions(field, arrO) {
+  for (const o of arrO) {
+    const option = document.createElement('option');
+    option.textContent = o.text;
+    option.setAttribute('value', o.id);
+    field.append(option);
+  }
+}
 
 // неактивное состояние
 
