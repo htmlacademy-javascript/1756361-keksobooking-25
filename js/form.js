@@ -36,7 +36,7 @@ const userPriceSelect = form.querySelector('#price');
 const validatePrice = (value) => value >= apartmentMinPrice(userTypeSelect.value);
 
 const getPriceErrorMessage = () => `Минимальная цена для жилья
-'${apartmentType[userTypeSelect.value]}' должна быть '${apartmentMinPrice(userTypeSelect.value)}' руб.`;
+'${apartmentType[userTypeSelect.value]}' должна быть '${apartmentMinPrice[userTypeSelect.value]}' руб.`;
 
 pristine.addValidator(
   validatePrice,
@@ -94,8 +94,8 @@ const select2 = [
   }
 ];
 
-const fieldOne = document.getElementById('#room_number');
-const fieldTwo = document.getElementById('#capacity');
+const fieldOne = document.getElementById('room_number');
+const fieldTwo = document.getElementById('capacity');
 
 createOptions(fieldOne, select1);
 eventChange.call(fieldOne, fieldTwo);
