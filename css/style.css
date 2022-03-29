@@ -923,6 +923,20 @@ fieldset {
  * Сообщения об успешном и неуспешном создании объявления
  */
 
+.ad-form__error {
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  color: red;
+  background: rgba(225, 0, 0, 0.1);
+  width: calc(100% - 20px);
+  padding-left: 10px;
+}
+
+/* .ad-form--invalid {
+  border: 2px solid #ff5635;
+} */
+
 .success,
 .error {
   position: fixed;
