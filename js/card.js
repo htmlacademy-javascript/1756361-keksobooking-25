@@ -29,7 +29,7 @@ const templateAdvertisements = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-const apartmentType  = {
+export const apartmentType  = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',

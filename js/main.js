@@ -8,3 +8,4 @@ const element = makePopup(adv[0]);
 mapCanvas.appendChild(element);
 
 import './util.js';
+import './form.js';
