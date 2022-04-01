@@ -79,7 +79,7 @@ const createAuthors= () => {
   return authors;
 };
 
-const createLocations = () => {
+export const createLocations = () => {
   const locations = {
     lat: getRandomFloat(MIN_LAT, MAX_LAT),
     lng: getRandomFloat(MIN_LNG, MAX_LNG),
