@@ -2,6 +2,7 @@ import {apartmentType} from './card.js';
 
 const form = document.querySelector('.ad-form');
 
+
 //валидация имени
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -83,15 +84,4 @@ const validateTimeError = () => {
 
 pristine.addValidator(timeOut, validateTimeError, 'Время выезда должно соответствовать времени заезда');
 
-// const validateTimeOut = () => {
-//   timeOut.value = timeIn.value;
-//   pristine.validate(timeOut);
-// };
-
-// const validateTimeIn = () => {
-//   timeIn.value = timeOut.value;
-//   pristine.validate(timeOut);
-// };
-
-// validateTimeIn();
-// validateTimeOut();
+export {form};
