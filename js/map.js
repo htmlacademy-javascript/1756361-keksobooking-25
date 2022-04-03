@@ -1,9 +1,11 @@
-import {createActive} from './form.js';
-import {makeSimilarAdvertisements} from './generationcard.js';
+import {createActive, createDisable} from './form-status.js';
+import { similarAdvertisement } from './generationcard.js';
 import {makePopup} from './card.js';
 
 //слой
 // const pointsGroup = L.layerGroup().addTo(map);
+
+createDisable();
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -41,7 +43,7 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 const obgPinIcon = L.icon({
-  iconUrl: '../img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
@@ -53,10 +55,8 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${markerPosition.lat.toFixed(5)} / ${markerPosition.lng.toFixed(5)}`;
 });
 
-const points = makeSimilarAdvertisements();
-
 const makePoints = () => {
-  points.forEach((item) => {
+  similarAdvertisement.forEach((item) => {
     const obgPinMarker = L.marker(
       {
         lat: item.location.lat,
@@ -74,13 +74,31 @@ const makePoints = () => {
   });
 };
 
-makePoints(points);
+makePoints();
 
-const resetButton = document.querySelector('#reset');
-
-resetButton.addEventListener('click', () => {
-  mainPinMarker.setLatLng({
-    lat: 35.6895,
-    lng: 139.692,
-  });
+similarAdvertisement.forEach((point) => {
+  const lat = point.location.lat;
+  const lng = point.location.lng;
+  const similarMarker = L.marker(
+    {
+      lat,
+      lng,
+    },
+    {
+      icon: obgPinIcon,
+    },
+  );
+  similarMarker
+    .addTo(map)
+    .bindPopup(makePopup(point));
 });
+
+// кнопка для очистки формы
+// const resetButton = document.querySelector('ad-reset');
+
+// resetButton.addEventListener('click', () => {
+//   mainPinMarker.setLatLng({
+//     lat: 35.6895,
+//     lng: 139.692,
+//   });
+// });
