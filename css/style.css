@@ -433,6 +433,12 @@ fieldset {
   display: none;
 }
 
+.ad-form__error {
+  width: calc(100% - 20px);
+  background-color: #ffaa99;
+  color: red;
+}
+
 .features legend {
   padding-bottom: 5px;
 }
