@@ -79,10 +79,10 @@ const createAuthors= () => {
   return authors;
 };
 
-export const createLocations = () => {
+const createLocations = () => {
   const locations = {
-    lat: getRandomFloat(MIN_LAT, MAX_LAT),
-    lng: getRandomFloat(MIN_LNG, MAX_LNG),
+    lat: getRandomFloat(MIN_LAT, MAX_LAT, 5),
+    lng: getRandomFloat(MIN_LNG, MAX_LNG, 5),
   };
   return locations;
 };
@@ -109,9 +109,13 @@ const createNearestPlaces = () => {
   };
 };
 
-export const makeSimilarAdvertisements = () => {
+const similarAdvertisement = Array.from({length: SIMILAR_AUTHOR_COUNT}, createNearestPlaces);
+
+const makeSimilarAdvertisements = () => {
   const similarAdvertisements = Array.from({length: SIMILAR_AUTHOR_COUNT}, createNearestPlaces);
   return similarAdvertisements;
 };
 
 makeSimilarAdvertisements();
+
+export {SIMILAR_AUTHOR_COUNT, createLocations, makeSimilarAdvertisements, similarAdvertisement};
