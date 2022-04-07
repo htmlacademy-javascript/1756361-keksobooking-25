@@ -1,5 +1,5 @@
 import {apartmentType} from './card.js';
-
+import {postData} from './data.js';
 const form = document.querySelector('.ad-form');
 
 
@@ -83,5 +83,71 @@ const validateTimeError = () => {
 };
 
 pristine.addValidator(timeOut, validateTimeError, 'Время выезда должно соответствовать времени заезда');
+
+const postButton = document.querySelector('.ad-form__submit');
+
+const blockSubmitButton = () => {
+  postButton.disabled = true;
+};
+
+const unblockSubmitButton = () => {
+  postButton.disabled = false;
+};
+
+const DEFAULT_MARKER_POSITION = [35.69467, 139.76326];
+
+const resetMap = () => {
+  const title = document.querySelector('#title');
+  const roomNumber = document.querySelector('#room_number');
+  const capacity = document.querySelector('#capacity');
+  const description = document.querySelector('#description');
+  const address = document.querySelector('#address');
+  const timein = document.querySelector('#timein');
+  const timeout = document.querySelector('#timeout');
+  title.value = '';
+  type.value = 'flat';
+  price.value ='5000';
+  roomNumber.value = '1';
+  capacity.value = '3';
+  description.value = '';
+  address.value = DEFAULT_MARKER_POSITION;
+  timein.value = '12:00';
+  timeout.value = '12:00';
+  const input = document.querySelectorAll('.features__checkbox');
+  for (let i = 0; i < input.length; ++i) {
+    input[i].checked = false;
+  }
+};
+
+const onSuccess = () => {
+  const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+  const mapCanvas = document.querySelector('#map-canvas');
+  mapCanvas.appendChild(successMessage);
+};
+
+const onError = () => {
+  const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+  const mapCanvas = document.querySelector('#map-canvas');
+  mapCanvas.appendChild(errorMessage);
+};
+
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  if(pristine.validate()) {
+    blockSubmitButton();
+    postData(
+      () => {
+        resetMap();
+        onSuccess();
+        unblockSubmitButton();
+      },
+      () => {
+        onError();
+        unblockSubmitButton();
+      },
+      new FormData(evt.target),
+    );
+  }
+});
 
 export {form};

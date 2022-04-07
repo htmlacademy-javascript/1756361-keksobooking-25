@@ -37,7 +37,7 @@ export const apartmentType  = {
   hotel: 'Отель',
 };
 
-export const makePopup = (item) => {
+const makePopup = (item) => {
   const cardElement = templateAdvertisements.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = item.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = item.offer.address;
@@ -50,3 +50,5 @@ export const makePopup = (item) => {
   fillPhotos(cardElement.querySelector('.popup__photos'), item.offer.photo);
   return cardElement;
 };
+
+export {makePopup};

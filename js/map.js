@@ -102,3 +102,5 @@ similarAdvertisement.forEach((point) => {
 //     lng: 139.692,
 //   });
 // });
+
+export {makePoints};
