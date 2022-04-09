@@ -1,22 +1,29 @@
-const getData = (insertAdvert, err) => fetch(
+
+import {makePoints} from './map.js';
+
+const onErr = () => {
+  const errorDataMessage = document.querySelector('#errorData').content.querySelector('.error').cloneNode(true);
+  const mapCanvas = document.querySelector('#map-canvas');
+  mapCanvas.appendChild(errorDataMessage);
+};
+
+const responseData = (response) => response.json();
+
+const getData = () => fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {
     method: 'GET',
     credentials: 'same-origin',
   },
 )
-  .then((response) => {
-    response.json();
-  })
-  .then((advert) => {
-    insertAdvert(advert);
-  })
+  .then(responseData)
+  .then(makePoints)
   .catch(() => {
     document.querySelector('.map__filters').classList.add('map__filters--disabled');
-    err('Не удалось загрузить данные!');
+    onErr('Не удалось загрузить данные!');
   });
 
-const postData = (onSuccess, onErr, data) => {
+const postData = (onSuccess, err, data) => {
   fetch(
     'https://25.javascript.pages.academy/keksobooking',
     {
@@ -27,11 +34,11 @@ const postData = (onSuccess, onErr, data) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onErr('Не удалось отправить форму. Попробуйте ещё раз!');
+        err('Не удалось отправить форму. Попробуйте ещё раз!');
       }
     })
     .catch(() => {
-      onErr('Не удалось отправить форму. Попробуйте ещё раз!!');
+      err('Не удалось отправить форму. Попробуйте ещё раз!!');
     });
 };
 

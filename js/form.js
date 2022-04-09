@@ -1,9 +1,10 @@
 import {apartmentType} from './card.js';
 import {postData} from './data.js';
+
 const form = document.querySelector('.ad-form');
 
-
 //валидация имени
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form--invalid',
@@ -149,5 +150,3 @@ form.addEventListener('submit', (evt) => {
     );
   }
 });
-
-export {form};
