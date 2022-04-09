@@ -1,9 +1,5 @@
 import {createActive, createDisable} from './form-status.js';
-import { similarAdvertisement } from './generationcard.js';
 import {makePopup} from './card.js';
-
-//слой
-// const pointsGroup = L.layerGroup().addTo(map);
 
 createDisable();
 
@@ -15,6 +11,7 @@ const map = L.map('map-canvas')
     lat: 35.6895,
     lng:  139.692,
   }, 10);
+
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -55,8 +52,8 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${markerPosition.lat.toFixed(5)} / ${markerPosition.lng.toFixed(5)}`;
 });
 
-const makePoints = () => {
-  similarAdvertisement.forEach((item) => {
+const makePoints = (advert) => {
+  advert.slice(0, 9).forEach((item) => {
     const obgPinMarker = L.marker(
       {
         lat: item.location.lat,
@@ -73,34 +70,5 @@ const makePoints = () => {
       .bindPopup(makePopup(item));
   });
 };
-
-makePoints();
-
-similarAdvertisement.forEach((point) => {
-  const lat = point.location.lat;
-  const lng = point.location.lng;
-  const similarMarker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon: obgPinIcon,
-    },
-  );
-  similarMarker
-    .addTo(map)
-    .bindPopup(makePopup(point));
-});
-
-// кнопка для очистки формы
-// const resetButton = document.querySelector('ad-reset');
-
-// resetButton.addEventListener('click', () => {
-//   mainPinMarker.setLatLng({
-//     lat: 35.6895,
-//     lng: 139.692,
-//   });
-// });
 
 export {makePoints};
