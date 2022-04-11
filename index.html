@@ -99,7 +99,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" required data-pristine-required-message="Обязательное поле">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -236,6 +236,13 @@
     <div class="error">
       <p class="error__message">Ошибка размещения объявления</p>
       <button type="button" class="error__button">Попробовать снова</button>
+    </div>
+  </template>
+
+  <!-- Сообщение об ошибке сервера -->
+  <template id="errorData">
+    <div class="error">
+      <p class="error__message">Проблемы с сервером<br>попробуйте позже</p>
     </div>
   </template>
   <script src="https://unpkg.com/nouislider@14.6.3/distribute/nouislider.min.js"></script>
