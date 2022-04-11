@@ -1,6 +1,9 @@
 import {createActive, createDisable} from './form-status.js';
 import {makePopup} from './card.js';
 
+const LAT = 35.6895;
+const LNG = 139.692;
+
 createDisable();
 
 const map = L.map('map-canvas')
@@ -8,8 +11,8 @@ const map = L.map('map-canvas')
     createActive();
   })
   .setView({
-    lat: 35.6895,
-    lng:  139.692,
+    lat: LAT,
+    lng:  LNG,
   }, 10);
 
 
@@ -46,6 +49,7 @@ const obgPinIcon = L.icon({
 });
 
 const address = document.querySelector('#address');
+address.value = `${LAT} / ${LNG}`;
 
 mainPinMarker.on('moveend', (evt) => {
   const markerPosition = (evt.target.getLatLng());

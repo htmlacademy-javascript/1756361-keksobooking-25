@@ -1,4 +1,3 @@
-import {apartmentType} from './card.js';
 import {postData} from './data.js';
 
 const form = document.querySelector('.ad-form');
@@ -24,29 +23,24 @@ form.addEventListener('submit',  (e) => {
 const price = document.querySelector('#price');
 const type = document.querySelector('#type');
 
-const typeMinPrice  = {
-  palace:10000,
-  flat:1000,
-  house:5000,
-  bungalow:0,
-  hotel:3000,
+const typeMinPrice = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
-let currentType;
-let currentValidPrice;
-
-const textError = () => {
-  currentValidPrice = typeMinPrice[type.value];
-  currentType = apartmentType[type.value];
-  return `Минимальная цена для ${currentType} ${currentValidPrice}₽.`;
+const changeMinPrice = () => {
+  price.min = typeMinPrice[type.value];
+  price.placeholder = typeMinPrice[type.value];
 };
 
-const priceValid = (userPrice) => {
-  userPrice = true;
-  return typeMinPrice[type.value] <= userPrice; //взять значение, перечень значений соответсвую назначить цену
-};
+type.addEventListener('change', changeMinPrice);
+const validatePrice = () => price.value && Number(document.querySelector('#price').value) >= Number(form.querySelector('#price').min);
+const getPriceErrorMessage = () => `Минимальная цена - ${price.min}`;
 
-pristine.addValidator(price, priceValid, textError);
+pristine.addValidator(price, validatePrice, getPriceErrorMessage);
 
 // комнаты
 const numberSelector = form.querySelector('#room_number');

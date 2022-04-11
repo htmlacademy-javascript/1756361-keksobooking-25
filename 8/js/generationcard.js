@@ -57,14 +57,7 @@ const SIMILAR_AUTHOR_COUNT = 10;
 //   '14:00',
 // ];
 
-// const features = [
-//   'wifi',
-//   'dishwasher',
-//   'parking',
-//   'washer',
-//   'elevator',
-//   'conditioner',
-// ];
+//
 
 // const photos = [
 //   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
