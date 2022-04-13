@@ -1,6 +1,3 @@
-
-import {makePoints} from './map.js';
-
 const onErr = () => {
   const errorDataMessage = document.querySelector('#errorData').content.querySelector('.error').cloneNode(true);
   const mapCanvas = document.querySelector('#map-canvas');
@@ -9,7 +6,7 @@ const onErr = () => {
 
 const responseData = (response) => response.json();
 
-const getData = () => fetch(
+const getData = (onSuccess) => fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {
     method: 'GET',
@@ -17,7 +14,7 @@ const getData = () => fetch(
   },
 )
   .then(responseData)
-  .then(makePoints)
+  .then(onSuccess)
   .catch(() => {
     document.querySelector('.map__filters').classList.add('map__filters--disabled');
     onErr('Не удалось загрузить данные!');
