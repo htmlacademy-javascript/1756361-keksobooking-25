@@ -1,5 +1,6 @@
 import {createActive, createDisable} from './form-status.js';
 import {makePopup} from './card.js';
+import {filter} from './filter.js';
 
 const LAT = 35.6895;
 const LNG = 139.692;
@@ -56,8 +57,11 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${markerPosition.lat.toFixed(5)} / ${markerPosition.lng.toFixed(5)}`;
 });
 
+const markerGroup = L.layerGroup().addTo(map);
+
 const makePoints = (advert) => {
-  advert.slice(0, 9).forEach((item) => {
+  markerGroup.clearLayers();
+  advert.filter(filter).slice(0, 9).forEach((item) => {
     const obgPinMarker = L.marker(
       {
         lat: item.location.lat,
@@ -70,7 +74,7 @@ const makePoints = (advert) => {
     );
 
     obgPinMarker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(makePopup(item));
   });
 };
