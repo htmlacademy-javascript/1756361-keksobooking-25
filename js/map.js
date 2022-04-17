@@ -2,8 +2,15 @@ import {createActive, createDisable} from './form-status.js';
 import {makePopup} from './card.js';
 import {filter} from './filter.js';
 
+const CENTER_TOKYO = {
+  lat: 35.6895,
+  lng: 139.692,
+};
+
 const LAT = 35.6895;
 const LNG = 139.692;
+
+const ZoomMap = 10;
 
 createDisable();
 
@@ -11,10 +18,7 @@ const map = L.map('map-canvas')
   .on('load', () => {
     createActive();
   })
-  .setView({
-    lat: LAT,
-    lng:  LNG,
-  }, 10);
+  .setView(CENTER_TOKYO, ZoomMap);
 
 
 L.tileLayer(
@@ -31,10 +35,7 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: 35.6895,
-    lng:  139.692,
-  },
+  CENTER_TOKYO,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -59,9 +60,9 @@ mainPinMarker.on('moveend', (evt) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const makePoints = (advert) => {
+const makePoints = (adverts) => {
   markerGroup.clearLayers();
-  advert.filter(filter).slice(0, 9).forEach((item) => {
+  adverts.filter(filter).slice(0, 9).forEach((item) => {
     const obgPinMarker = L.marker(
       {
         lat: item.location.lat,

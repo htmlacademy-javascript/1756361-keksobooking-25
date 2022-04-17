@@ -1,7 +1,10 @@
 import {getData} from './data.js';
+import {makePoints} from './map.js';
 import {debounce} from './util.js';
 
 const DEBOUNCE_TIME = 500;
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
 const type = document.querySelector('#housing-type');
 const price = document.querySelector('#housing-price');
 const rooms = document.querySelector('#housing-rooms');
@@ -21,13 +24,13 @@ const checkPrice = (item) => {
     return true;
   }
   if (price.value === 'middle') {
-    return item.offer.price >= 10000 && item.offer.price < 50000;
+    return item.offer.price >= MIN_PRICE && item.offer.price < MAX_PRICE;
   }
   if (price.value === 'low') {
-    return item.offer.price < 10000;
+    return item.offer.price < MIN_PRICE;
   }
   if (price.value === 'high') {
-    return item.offer.price >= 50000;
+    return item.offer.price >= MAX_PRICE;
   }
   return false;
 };
@@ -57,7 +60,7 @@ const checkFeature = (item) => {
   return Array.from(checkedFeatures).every((element)=>item.offer.features.includes(element.value));
 };
 
-const debounceGetData = debounce(getData, DEBOUNCE_TIME);
+const debounceGetData = debounce( ()=> getData(makePoints), DEBOUNCE_TIME);
 
 const filter = (item) => checkType(item) && checkPrice(item) && checkRooms(item) && checkGuests(item) && checkFeature(item);
 type.addEventListener('change', ()=>{
