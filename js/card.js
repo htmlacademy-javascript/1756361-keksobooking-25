@@ -1,8 +1,3 @@
-
-const templateAdvertisements = document.querySelector('#card')
-  .content
-  .querySelector('.popup');
-
 const apartmentType  = {
   palace: 'Дворец',
   flat: 'Квартира',
@@ -10,6 +5,10 @@ const apartmentType  = {
   bungalow: 'Бунгало',
   hotel: 'Отель',
 };
+
+const templateAdvertisements = document.querySelector('#card')
+  .content
+  .querySelector('.popup');
 
 const makePopup = (item) => {
   const cardElement = templateAdvertisements.cloneNode(true);

@@ -81,4 +81,15 @@ features.forEach((element)=>{
   });
 });
 
-export {filter};
+const resetFilter = () => {
+  type.value = 'any';
+  price.value = 'any';
+  rooms.value = 'any';
+  guests.value = 'any';
+  features.forEach((element)=>{
+    element.checked = false;
+  });
+  debounceGetData();
+};
+
+export {filter, resetFilter};
