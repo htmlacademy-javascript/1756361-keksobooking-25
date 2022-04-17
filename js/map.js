@@ -10,7 +10,7 @@ const CENTER_TOKYO = {
 const LAT = 35.6895;
 const LNG = 139.692;
 
-const ZoomMap = 10;
+const ZOOM_MAP = 10;
 
 createDisable();
 
@@ -18,7 +18,7 @@ const map = L.map('map-canvas')
   .on('load', () => {
     createActive();
   })
-  .setView(CENTER_TOKYO, ZoomMap);
+  .setView(CENTER_TOKYO, ZOOM_MAP);
 
 
 L.tileLayer(
@@ -80,4 +80,9 @@ const makePoints = (adverts) => {
   });
 };
 
-export {makePoints};
+const resetMap = () => {
+  const latlng = L.latLng(LAT, LNG);
+  mainPinMarker.setLatLng(latlng);
+};
+
+export {makePoints, resetMap};

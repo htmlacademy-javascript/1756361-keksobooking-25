@@ -1,7 +1,33 @@
 import {postData} from './data.js';
+import {resetFilter} from './filter.js';
+import {resetMap} from './map.js';
+
+const LAT = 35.6895;
+const LNG = 139.692;
+const numberCapacity = {
+  1: ['1'],
+  2: ['2', '1'],
+  3: ['3', '2', '1'],
+  100: ['0']
+};
+
+const TypeMinPrice = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
 
 const form = document.querySelector('.ad-form');
 const formReset = document.querySelector('.ad-form__reset');
+const price = document.querySelector('#price');
+const type = document.querySelector('#type');
+const numberSelector = form.querySelector('#room_number');
+const capacitySelector = form.querySelector('#capacity');
+const  timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const postButton = document.querySelector('.ad-form__submit');
 
 //валидация имени
 
@@ -21,20 +47,9 @@ form.addEventListener('submit',  (e) => {
 
 //валидация прайса
 
-const price = document.querySelector('#price');
-const type = document.querySelector('#type');
-
-const typeMinPrice = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
-};
-
 const changeMinPrice = () => {
-  price.min = typeMinPrice[type.value];
-  price.placeholder = typeMinPrice[type.value];
+  price.min = TypeMinPrice[type.value];
+  price.placeholder = TypeMinPrice[type.value];
 };
 
 type.addEventListener('change', changeMinPrice);
@@ -44,43 +59,16 @@ const getPriceErrorMessage = () => `Минимальная цена - ${price.mi
 pristine.addValidator(price, validatePrice, getPriceErrorMessage);
 
 // комнаты
-const numberSelector = form.querySelector('#room_number');
-const capacitySelector = form.querySelector('#capacity');
 
-const numberCapacity = {
-  1: ['1'],
-  2: ['2', '1'],
-  3: ['3', '2', '1'],
-  100: ['0']
-};
-
-const validNumberCapasity = () => {
-  if (numberCapacity[numberSelector.value].includes(capacitySelector.value)) {
-    return true;
-  }
-  else {
-    return false;
-  }
-};
+const validNumberCapasity = () => numberCapacity[numberSelector.value].includes(capacitySelector.value);
 
 pristine.addValidator(capacitySelector, validNumberCapasity, 'Недопустимое количество гостей при заданном количестве комнат');
 
 //время выезда время заезда
 
-const  timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-
-const validateTimeError = () => {
-  if (timeIn.value !== timeOut.value){
-    return false;
-  } else {
-    return true;
-  }
-};
+const validateTimeError = () => timeIn.value !== timeOut.value;
 
 pristine.addValidator(timeOut, validateTimeError, 'Время выезда должно соответствовать времени заезда');
-
-const postButton = document.querySelector('.ad-form__submit');
 
 const blockSubmitButton = () => {
   postButton.disabled = true;
@@ -90,11 +78,9 @@ const unblockSubmitButton = () => {
   postButton.disabled = false;
 };
 
-
-const LAT = 35.6895;
-const LNG = 139.692;
-
-const resetMap = () => {
+const resetForm = () => {
+  resetMap();
+  resetFilter();
   const title = document.querySelector('#title');
   const roomNumber = document.querySelector('#room_number');
   const capacity = document.querySelector('#capacity');
@@ -119,7 +105,7 @@ const resetMap = () => {
 
 formReset.addEventListener('click', (evt) => {
   evt.preventDefault();
-  resetMap();
+  resetForm();
 });
 
 const isEscEvent = (evt) => evt.key === 'Escape'|| evt.key === 'Esc';
@@ -128,7 +114,6 @@ const removeMessageListener = (element, onDocumentKeydown) => {
   element.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
-
 
 const onSuccess = () => {
   const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
@@ -175,7 +160,7 @@ form.addEventListener('submit', (evt) => {
     blockSubmitButton();
     postData(
       () => {
-        resetMap();
+        resetForm();
         onSuccess();
         unblockSubmitButton();
       },
