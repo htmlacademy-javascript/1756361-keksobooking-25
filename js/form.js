@@ -1,6 +1,7 @@
 import {postData} from './data.js';
 
 const form = document.querySelector('.ad-form');
+const formReset = document.querySelector('.ad-form__reset');
 
 //валидация имени
 
@@ -89,7 +90,9 @@ const unblockSubmitButton = () => {
   postButton.disabled = false;
 };
 
-const DEFAULT_MARKER_POSITION = [35.69467, 139.76326];
+
+const LAT = 35.6895;
+const LNG = 139.692;
 
 const resetMap = () => {
   const title = document.querySelector('#title');
@@ -101,11 +104,11 @@ const resetMap = () => {
   const timeout = document.querySelector('#timeout');
   title.value = '';
   type.value = 'flat';
-  price.value ='5000';
+  price.value ='5000,00';
   roomNumber.value = '1';
   capacity.value = '3';
   description.value = '';
-  address.value = DEFAULT_MARKER_POSITION;
+  address.value = `${LAT} / ${LNG}`;
   timein.value = '12:00';
   timeout.value = '12:00';
   const input = document.querySelectorAll('.features__checkbox');
@@ -114,16 +117,56 @@ const resetMap = () => {
   }
 };
 
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetMap();
+});
+
+const isEscEvent = (evt) => evt.key === 'Escape'|| evt.key === 'Esc';
+
+const removeMessageListener = (element, onDocumentKeydown) => {
+  element.remove();
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+
 const onSuccess = () => {
   const successMessage = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
   const mapCanvas = document.querySelector('#map-canvas');
   mapCanvas.appendChild(successMessage);
+
+  const onDocumentKeydown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      removeMessageListener(successMessage);
+    }
+  };
+  document.addEventListener('keydown', onDocumentKeydown);
+  successMessage.addEventListener('click', () => {
+    removeMessageListener(successMessage);
+  });
 };
 
 const onError = () => {
   const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   const mapCanvas = document.querySelector('#map-canvas');
   mapCanvas.appendChild(errorMessage);
+
+  const onDocumentKeydown = (evt) => {
+    if (isEscEvent(evt)) {
+      evt.preventDefault();
+      removeMessageListener(errorMessage);
+    }
+  };
+  const closeErrorButton = errorMessage.querySelector('.error__button');
+
+  document.addEventListener('keydown', onDocumentKeydown);
+  closeErrorButton.addEventListener('click', () => {
+    removeMessageListener(errorMessage);
+  });
+  errorMessage.addEventListener('click', () => {
+    removeMessageListener(errorMessage);
+  });
 };
 
 form.addEventListener('submit', (evt) => {
