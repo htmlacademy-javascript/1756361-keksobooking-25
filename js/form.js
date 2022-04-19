@@ -2,6 +2,8 @@ import {postData} from './data.js';
 import {resetFilter} from './filter.js';
 import {resetMap} from './map.js';
 
+
+const PHOTO = 'img/muffin-grey.svg';
 const LAT = 35.6895;
 const LNG = 139.692;
 const numberCapacity = {
@@ -66,7 +68,7 @@ pristine.addValidator(capacitySelector, validNumberCapasity, 'Недопусти
 
 //время выезда время заезда
 
-const validateTimeError = () => timeIn.value !== timeOut.value;
+const validateTimeError = () => timeIn.value === timeOut.value;
 
 pristine.addValidator(timeOut, validateTimeError, 'Время выезда должно соответствовать времени заезда');
 
@@ -78,6 +80,18 @@ const unblockSubmitButton = () => {
   postButton.disabled = false;
 };
 
+// в следующем коде реализовано обнуление слайдера, эту ф-ю нужно добавить в resetForm,
+// но поскольку по ТЗ не ясно нужна ли эта реализация я не стала добавлять этот код,
+// а удалять жалко (представим что это пасхалка для клиента если бы они решили это
+// реализовать уже после того как сделали оплату за проект и отдали другому програмисту работу)
+//
+// const sliderElement = document.querySelector('.ad-form__slider');
+// const sliderReset = () => {
+//   sliderElement.noUiSlider.updateOptions({
+//     start: 5000
+//   });
+// };
+
 const resetForm = () => {
   resetMap();
   resetFilter();
@@ -88,6 +102,10 @@ const resetForm = () => {
   const address = document.querySelector('#address');
   const timein = document.querySelector('#timein');
   const timeout = document.querySelector('#timeout');
+  const preview = document.querySelector('.image_avatar');
+  const previewForm = document.querySelector('.ad-form__photo > img');
+  preview.src = PHOTO;
+  previewForm.src = PHOTO;
   title.value = '';
   type.value = 'flat';
   price.value ='5000,00';
