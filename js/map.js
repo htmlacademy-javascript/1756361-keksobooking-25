@@ -1,6 +1,7 @@
 import {createActive, createDisable} from './form-status.js';
 import {makePopup} from './card.js';
 import {filter} from './filter.js';
+import {getData} from './data.js';
 
 const CENTER_TOKYO = {
   lat: 35.6895,
@@ -14,12 +15,7 @@ const ZOOM_MAP = 10;
 
 createDisable();
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    createActive();
-  })
-  .setView(CENTER_TOKYO, ZOOM_MAP);
-
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -69,7 +65,7 @@ const makePoints = (adverts) => {
         lng: item.location.lng,
       },
       {
-        draggable: true,
+        draggable: false,
         icon: obgPinIcon,
       },
     );
@@ -79,6 +75,15 @@ const makePoints = (adverts) => {
       .bindPopup(makePopup(item));
   });
 };
+
+map.on('load', () => {
+  getData((adverts) => {
+    makePoints(adverts);
+    createActive();
+  });
+}).setView(
+  CENTER_TOKYO,
+  ZOOM_MAP);
 
 const resetMap = () => {
   const latlng = L.latLng(LAT, LNG);
