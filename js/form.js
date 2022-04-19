@@ -108,7 +108,7 @@ const resetForm = () => {
   previewForm.src = PHOTO;
   title.value = '';
   type.value = 'flat';
-  price.value ='5000,00';
+  price.value ='5000';
   roomNumber.value = '1';
   capacity.value = '3';
   description.value = '';
